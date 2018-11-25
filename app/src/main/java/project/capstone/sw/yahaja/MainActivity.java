@@ -20,14 +20,12 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvData = (TextView)findViewById(R.id.tvData);
     }
 
     public void start_map_activity(View v) {
@@ -36,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 
     public void start_chat_activity(View v) {
 

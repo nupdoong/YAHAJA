@@ -76,6 +76,8 @@ public class MapActivity extends AppCompatActivity
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
 
+    StoredUserSession storedUserSession;
+
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000000;  // 1000초
@@ -297,6 +299,8 @@ public class MapActivity extends AppCompatActivity
                 Log.d( TAG, "onMapClick :");
             }
         });
+
+        new JSONTask_push_location().execute("http://18.220.15.129:3000/push_location");
 
     }
 
@@ -576,9 +580,11 @@ public class MapActivity extends AppCompatActivity
             try {
                 //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("account_id", "test01" );
+                jsonObject.accumulate("account_id", storedUserSession.getUserSession());
                 jsonObject.accumulate("location_longitude", location_longitude );
                 jsonObject.accumulate("location_latitude", location_latitude);
+
+                System.out.println("TTTTEEEEESSSSSTTTT"+storedUserSession.getUserSession());
 
                 Log.d(TAG, "경도, 위도: " + location_longitude +", "+ location_latitude);
 
@@ -655,7 +661,6 @@ public class MapActivity extends AppCompatActivity
 
     public void btn_refresh(View v) {
 
-        new JSONTask_push_location().execute("http://18.220.15.129:3000/push_location");
         JSONTask_get_location();
 
         mGoogleMap.clear();
@@ -671,7 +676,6 @@ public class MapActivity extends AppCompatActivity
     }
 
     public void JSONTask_get_location() {
-
 
         ArrayList<LocationData> items = new ArrayList<LocationData>();
         //openDatabase();
