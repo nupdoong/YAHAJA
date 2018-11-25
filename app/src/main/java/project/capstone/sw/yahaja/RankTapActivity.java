@@ -1,12 +1,14 @@
 package project.capstone.sw.yahaja;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 public class RankTapActivity extends AppCompatActivity {
   private TabLayout tabLayout;
+  private ViewPager viewPager;
   private android.support.v4.app.Fragment fragment;
   private android.support.v4.app.FragmentManager fragmentManager;
 
@@ -18,36 +20,32 @@ public class RankTapActivity extends AppCompatActivity {
     fragmentManager = getSupportFragmentManager();
 
     tabLayout = findViewById(R.id.tabLayout);
-    tabLayout.addTab(tabLayout.newTab().setText("TOP 100"));
-    tabLayout.addTab(tabLayout.newTab().setText("NEAR 100"));
-    tabLayout.addTab(tabLayout.newTab().setText("PEER 100"));
+    viewPager = findViewById(R.id.viewPager);
+    FragmentAdapter adapter = new FragmentAdapter(fragmentManager);
+
+    adapter.addFragment(new TabFragment1(), "TOP 100", false);
+    adapter.addFragment(new TabFragment2(), "NEAR 100", false);
+    adapter.addFragment(new TabFragment3(), "PEER 100", false);
+
+    viewPager.setAdapter(adapter);
+
+    tabLayout.setTabMode(TabLayout.MODE_FIXED);
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+    tabLayout.setupWithViewPager(viewPager);
+/*
+    tabLayout.addTab(tabLayout.newTab().setText("TOP 100"), 0);
+    tabLayout.addTab(tabLayout.newTab().setText("NEAR 100"), 1);
+    tabLayout.addTab(tabLayout.newTab().setText("PEER 100"), 2);
 
     fragment = new TabFragment1();
     fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-
+*/
 // Set TabSelectedListener
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
       public void onTabSelected(TabLayout.Tab tab) {
-        switch (tab.getPosition()) {
-          case 0:
-            fragment = new TabFragment1();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-
-            break;
-          case 1:
-            fragment = new TabFragment2();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-            break;
-          case 2:
-            fragment = new TabFragment3();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-            break;
-          default:
-            fragment = new TabFragment1();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-        }
+        viewPager.setCurrentItem(tab.getPosition());
 
       }
 

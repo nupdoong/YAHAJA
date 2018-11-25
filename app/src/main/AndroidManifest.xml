@@ -38,12 +38,11 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBzwb5eCUA6e4pFDzxI2mkhIqz7_FDmiCI" />
+            android:value="AIzaSyCpzF6GjhkHavzr3bbt70FhvPYEPaprehg" />
 
         <activity android:name=".MapActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".RankTapActivity" />
-        <activity android:name=".DialogActivity" />
+        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".RankTapActivity"></activity>
     </application>
 
 </manifest>
