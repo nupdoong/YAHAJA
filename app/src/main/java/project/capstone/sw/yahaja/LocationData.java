@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class LocationData {
     String firstname;
     double location_longitude;
+    int i;
     double location_latitude;
 
     LocationData(JSONObject rank_json) {
