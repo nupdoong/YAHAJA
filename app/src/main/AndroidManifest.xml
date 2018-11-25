@@ -41,8 +41,9 @@
             android:value="AIzaSyBzwb5eCUA6e4pFDzxI2mkhIqz7_FDmiCI" />
 
         <activity android:name=".MapActivity" />
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".RankTapActivity"></activity>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".RankTapActivity" />
+        <activity android:name=".DialogActivity" />
     </application>
 
 </manifest>

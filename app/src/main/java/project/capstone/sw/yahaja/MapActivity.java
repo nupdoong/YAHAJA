@@ -274,7 +274,17 @@ public class MapActivity extends AppCompatActivity
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            public boolean onMarkerClick(Marker marker) {
+
+                startActivity(new Intent(MapActivity.this, DialogActivity.class));
+
+                return false;
+            }
+        });
+
+
 
         setCustomMarkerView();
         getSampleMarkerItems();
@@ -289,6 +299,8 @@ public class MapActivity extends AppCompatActivity
         });
 
     }
+
+
 
     @Override
     protected void onStart() {
