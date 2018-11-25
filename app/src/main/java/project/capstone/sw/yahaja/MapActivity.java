@@ -76,7 +76,8 @@ public class MapActivity extends AppCompatActivity
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
 
-    StoredUserSession storedUserSession;
+
+
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -178,6 +179,8 @@ public class MapActivity extends AppCompatActivity
 
                 location_longitude = mCurrentLocatiion.getLongitude();
                 location_latitude = mCurrentLocatiion.getLatitude();
+
+                new JSONTask_push_location().execute("http://18.220.15.129:3000/push_location");
 
 
             }
@@ -300,8 +303,6 @@ public class MapActivity extends AppCompatActivity
             }
         });
 
-        new JSONTask_push_location().execute("http://18.220.15.129:3000/push_location");
-
     }
 
 
@@ -352,6 +353,9 @@ public class MapActivity extends AppCompatActivity
                     latlng.latitude,
                     latlng.longitude,
                     1);
+
+
+
         } catch (IOException ioException) {
             //네트워크 문제
             Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
@@ -578,9 +582,12 @@ public class MapActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... urls) {
             try {
+                StoredUserSession storedUserSession = new StoredUserSession(getApplicationContext());
+                String u_id = storedUserSession.getUserSession();
+
                 //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("account_id", storedUserSession.getUserSession());
+                jsonObject.accumulate("account_id", u_id);
                 jsonObject.accumulate("location_longitude", location_longitude );
                 jsonObject.accumulate("location_latitude", location_latitude);
 

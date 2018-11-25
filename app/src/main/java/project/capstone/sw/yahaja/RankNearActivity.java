@@ -30,7 +30,8 @@ public class RankNearActivity extends AppCompatActivity {
     ListView listView = (ListView) findViewById(R.id._listView);
 
     RankAdapter adapter = new RankAdapter();
-    String session_id = "lonecitizen";
+    StoredUserSession storedUserSession = new StoredUserSession(getApplicationContext());
+    String u_id = storedUserSession.getUserSession();
     //openDatabase();
 
     String API_url = "http://18.220.15.129:3000/get_billiards_rank";
@@ -48,7 +49,7 @@ public class RankNearActivity extends AppCompatActivity {
           adapter.addItem(r);
           count++;
         }
-        if(r.account_id == session_id){
+        if(r.account_id == u_id){
           TextView idView = findViewById(R.id.userId);
           TextView rankView = findViewById(R.id.rankNum);
           TextView pointView = findViewById(R.id.rankPoint);

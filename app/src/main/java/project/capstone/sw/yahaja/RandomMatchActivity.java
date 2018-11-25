@@ -1,5 +1,6 @@
 package project.capstone.sw.yahaja;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -70,8 +71,8 @@ public class RandomMatchActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v){
         switch(v.getId()){
             case R.id.button_chatting:
-                // goto chatting
-                //
+                Intent intent = new Intent(RandomMatchActivity.this, ChatActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button_result:
                 // goto result
