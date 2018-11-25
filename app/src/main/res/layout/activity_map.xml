@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout_main"
-    tools:context="project.capstone.sw.yahaja.MapActivity" >
+    tools:context=".MapActivity"
+    android:orientation="horizontal">
 
     <fragment
         android:id="@+id/map"
+        class="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.google.android.gms.maps.MapFragment" />
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_draw_State"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="470dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/ic_arrow_31177"
+        android:onClick="btn_refresh" />
+
+
+</FrameLayout>

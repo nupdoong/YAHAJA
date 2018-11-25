@@ -2,9 +2,12 @@ package project.capstone.sw.yahaja;
 
 import android.Manifest;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,10 +20,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.os.AsyncTask;
+import android.app.Activity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -40,20 +49,41 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+
 
 public class MapActivity extends AppCompatActivity
-        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback{
+        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
+    private static final int UPDATE_INTERVAL_MS = 1000000;  // 1000초
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 500000; // 5000초
+
+    private String account_id = "Park_bungSin";
+    private double location_longitude;
+    private double location_latitude;
 
     // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용됩니다.
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -74,6 +104,13 @@ public class MapActivity extends AppCompatActivity
 
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
+
+    ArrayList<LocationData> items = new ArrayList<LocationData>();
+    ArrayList<Marker_person> markerItems= new ArrayList<Marker_person>();
+
+    Marker selectedMarker;
+    View marker_root_view;
+    TextView tv_marker;
 
 
     @Override
@@ -102,10 +139,11 @@ public class MapActivity extends AppCompatActivity
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         FragmentManager fragmentManager = getFragmentManager();
+
         MapFragment mapFragment = (MapFragment)fragmentManager
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
+        mapFragment.getMapAsync(this);
 
     }
 
@@ -135,6 +173,11 @@ public class MapActivity extends AppCompatActivity
                 setCurrentLocation(location, markerTitle, markerSnippet);
 
                 mCurrentLocatiion = location;
+
+                location_longitude = mCurrentLocatiion.getLongitude();
+                location_latitude = mCurrentLocatiion.getLatitude();
+
+
             }
 
 
@@ -167,7 +210,7 @@ public class MapActivity extends AppCompatActivity
 
             Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
 
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback , Looper.myLooper());
 
             if (checkPermission())
                 mGoogleMap.setMyLocationEnabled(true);
@@ -175,8 +218,6 @@ public class MapActivity extends AppCompatActivity
         }
 
     }
-
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -232,6 +273,12 @@ public class MapActivity extends AppCompatActivity
 
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        mGoogleMap.setOnMarkerClickListener(this);
+
+        setCustomMarkerView();
+        getSampleMarkerItems();
+
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -241,10 +288,7 @@ public class MapActivity extends AppCompatActivity
             }
         });
 
-
-
     }
-
 
     @Override
     protected void onStart() {
@@ -259,9 +303,7 @@ public class MapActivity extends AppCompatActivity
 
             if (mGoogleMap!=null)
                 mGoogleMap.setMyLocationEnabled(true);
-
         }
-
 
     }
 
@@ -363,6 +405,8 @@ public class MapActivity extends AppCompatActivity
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+
         currentMarker = mGoogleMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
@@ -485,7 +529,6 @@ public class MapActivity extends AppCompatActivity
         builder.create().show();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -512,4 +555,263 @@ public class MapActivity extends AppCompatActivity
     }
 
 
+
+
+    public class JSONTask_push_location extends AsyncTask<String, String, String>{
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("account_id", "test01" );
+                jsonObject.accumulate("location_longitude", location_longitude );
+                jsonObject.accumulate("location_latitude", location_latitude);
+
+                Log.d(TAG, "경도, 위도: " + location_longitude +", "+ location_latitude);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try{
+                    //URL url = new URL("http://192.168.25.16:3000/users");
+                    URL url = new URL(urls[0]);
+                    //연결을 함
+                    con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");//POST방식으로 보냄
+                    con.setRequestProperty("Cache-Control", "no-cache");//캐시 설정
+                    con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
+                    con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                    con.setDoOutput(true);//Outstream으로 post 데이터를 넘겨주겠다는 의미
+                    con.setDoInput(true);//Inputstream으로 서버로부터 응답을 받겠다는 의미
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+
+                    String line = "";
+                    while((line = reader.readLine()) != null){
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();//서버로 부터 받은 값을 리턴해줌 아마 OK!!가 들어올것임
+
+                } catch (MalformedURLException e){
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if(con != null){
+                        con.disconnect();
+                    }
+                    try {
+                        if(reader != null){
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //tvData.setText(result);//서버로 부터 받은 값을 출력해주는 부
+            Log.d(TAG, "결과값: " + result);
+        }
+    }
+
+
+    public void btn_refresh(View v) {
+
+
+        JSONTask_get_location();
+
+        mGoogleMap.clear();
+
+        for (Marker_person item : markerItems) {
+            System.out.println(item.firstname + " " + item.lat + " " + item.lon);
+            addMarker(item);
+        }
+
+        // new JSONTask_push_location().execute("http://192.168.0.30:5001/users");
+        // onResume();
+        //  new JSONTask_push_location().execute("http://192.168.0.30:5001/users");
+    }
+
+    public void JSONTask_get_location() {
+
+
+        ArrayList<LocationData> items = new ArrayList<LocationData>();
+        //openDatabase();
+
+        String API_url = "http://192.168.0.102:5001/get_location";
+        RequestHttp requestHttp = new RequestHttp();
+        String response = requestHttp.requestGet(API_url);
+
+        System.out.println(response);
+        try {
+            JSONArray rankingResponse = new JSONArray(response);
+            for (int i = 0; i < rankingResponse.length(); i++) {
+                LocationData r = new LocationData(rankingResponse.getJSONObject(i));
+                //  System.out.println(r.firstname + " " + r.location_latitude + " " + r.location_longitude);
+                items.add(r);
+
+
+
+            }
+
+            for(LocationData item : items){
+                System.out.println(item.firstname + " " + item.location_latitude + " " + item.location_longitude);
+                Marker_person mak = new Marker_person( item.location_latitude, item.location_longitude, item.firstname  );
+
+                markerItems.add(mak);
+
+
+            }
+
+
+            ///////////////////// Marker
+            ///////////////////// Marker
+
+
+        }catch (JSONException e){
+            System.out.println("JSON parse error. /rankD");
+        }
+
+    }
+
+
+    //---------------------MARKER--------------------------------------------------------------------------------
+    //---------------------MARKER--------------------------------------------------------------------------------
+    //---------------------MARKER--------------------------------------------------------------------------------
+
+
+    private void setCustomMarkerView() {
+
+        marker_root_view = LayoutInflater.from(this).inflate(R.layout.marker_layout, null);
+        tv_marker = (TextView) marker_root_view.findViewById(R.id.tv_marker);
+    }
+
+
+    private void getSampleMarkerItems() {
+        ArrayList<Marker_person> sampleList = new ArrayList<>();
+
+
+        sampleList.add(new Marker_person(37.538523, 126.96568, "2500000"));
+        sampleList.add(new Marker_person(37.527523, 126.96568, "2500000"));
+        sampleList.add(new Marker_person(37.549523, 126.96568, "2500000"));
+        sampleList.add(new Marker_person(37.538523, 126.95768, "2500000"));
+
+
+        for (Marker_person markerItem : sampleList) {
+            addMarker(markerItem);
+        }
+
+    }
+
+
+
+    private Marker addMarker(Marker_person markerItem ) {
+
+
+        LatLng position = new LatLng(markerItem.getLat(), markerItem.getLon());
+        String custom_id = markerItem.getCustom_id();
+
+        if(tv_marker == null){
+
+        }
+
+
+        tv_marker.setText(custom_id);
+        tv_marker.setBackgroundResource(R.drawable.ic_marker_phone);
+
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title(custom_id);
+        markerOptions.position(position);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker_root_view)));
+
+        return mGoogleMap.addMarker(markerOptions);
+
+    }
+
+
+
+
+    // View를 Bitmap으로 변환
+    private Bitmap createDrawableFromView(Context context, View view) {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
+
+    private Marker addMarker(Marker marker) {
+        double lat = marker.getPosition().latitude;
+        double lon = marker.getPosition().longitude;
+        String custom_id = marker.getId();
+        Marker_person temp = new Marker_person(lat, lon, custom_id);
+        return addMarker(temp);
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        CameraUpdate center = CameraUpdateFactory.newLatLng(marker.getPosition());
+        mGoogleMap.animateCamera(center);
+
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------MARKER--------------------------------------------------------------------------------
+//---------------------MARKER--------------------------------------------------------------------------------
+//---------------------MARKER--------------------------------------------------------------------------------
+//---------------------MARKER--------------------------------------------------------------------------------
 }
