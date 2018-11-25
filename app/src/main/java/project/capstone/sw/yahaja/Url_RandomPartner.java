@@ -9,6 +9,7 @@ public class Url_RandomPartner {
     class RandomPartner{
         int rank;
         int points;
+
         RandomPartner(){
         }
     }
