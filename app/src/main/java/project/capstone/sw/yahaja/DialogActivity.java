@@ -1,6 +1,7 @@
 package project.capstone.sw.yahaja;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,10 +33,10 @@ public class DialogActivity extends Activity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnConfirm:
-                this.finish();
                 break;
             case R.id.btnCancel:
-                this.finish();
+                Intent intent = new Intent(DialogActivity.this, ChatActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
