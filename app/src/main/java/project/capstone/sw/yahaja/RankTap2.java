@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TabFragment2 extends Fragment {
-  public TabFragment2(){}
+public class RankTap2 extends Fragment {
+  public RankTap2(){}
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
