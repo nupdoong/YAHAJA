@@ -655,7 +655,7 @@ public class MapActivity extends AppCompatActivity
 
     public void btn_refresh(View v) {
 
-
+        new JSONTask_push_location().execute("http://18.220.15.129:3000/push_location");
         JSONTask_get_location();
 
         mGoogleMap.clear();
@@ -676,7 +676,7 @@ public class MapActivity extends AppCompatActivity
         ArrayList<LocationData> items = new ArrayList<LocationData>();
         //openDatabase();
 
-        String API_url = "http://192.168.0.102:5001/get_location";
+        String API_url = "http://18.220.15.129:3000/get_location";
         RequestHttp requestHttp = new RequestHttp();
         String response = requestHttp.requestGet(API_url);
 
@@ -727,12 +727,6 @@ public class MapActivity extends AppCompatActivity
 
     private void getSampleMarkerItems() {
         ArrayList<Marker_person> sampleList = new ArrayList<>();
-
-
-        sampleList.add(new Marker_person(37.538523, 126.96568, "2500000"));
-        sampleList.add(new Marker_person(37.527523, 126.96568, "2500000"));
-        sampleList.add(new Marker_person(37.549523, 126.96568, "2500000"));
-        sampleList.add(new Marker_person(37.538523, 126.95768, "2500000"));
 
 
         for (Marker_person markerItem : sampleList) {
