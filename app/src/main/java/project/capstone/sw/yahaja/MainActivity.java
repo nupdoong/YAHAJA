@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         tvData = (TextView)findViewById(R.id.tvData);
     }
 
+
+    public void start_random_match_activity(View v) {
+        Intent intent = new Intent(MainActivity.this, RandomMatchActivity.class);
+        startActivity(intent);
+    }
+
     public void start_map_activity(View v) {
         Intent intent = new Intent(MainActivity.this, MapActivity.class);
         startActivity(intent);

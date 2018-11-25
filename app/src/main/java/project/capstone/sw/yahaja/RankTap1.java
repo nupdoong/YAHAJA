@@ -32,9 +32,6 @@ public class RankTap1 extends Fragment {
     RequestHttp requestHttp = new RequestHttp();
     String response = requestHttp.requestGet(API_url);
 
-    Log.d("RANK", u_id);
-    Log.d("RANK", u_id);
-    Log.d("RANK", u_id);
 
     try{
       JSONArray rankingResponse = new JSONArray(response);
