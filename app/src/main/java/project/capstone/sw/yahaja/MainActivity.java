@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
      //   Intent intent = new Intent(MainActivity.this, ChatActivity.class);
      //  startActivity(intent);
-        new JSONTask_matching().execute("192.168.0.44:5001/users");
+        new JSONTask_matching().execute("18.220.15.129:3000/users");
 
     }
 
     public void start_rank_activity(View v) {
-        Intent intent = new Intent(MainActivity.this, RankActivity.class);
+        Intent intent = new Intent(MainActivity.this, RankTapActivity.class);
         startActivity(intent);
     }
 
