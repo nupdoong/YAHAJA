@@ -31,6 +31,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
+
+
+    @Override
     public void onClick(View v){
         switch(v.getId()){
             case R.id.textView_login_signin:
@@ -64,4 +71,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
 }
