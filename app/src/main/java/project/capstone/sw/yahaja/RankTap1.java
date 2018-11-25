@@ -15,8 +15,8 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class TabFragment1 extends Fragment {
-  public TabFragment1(){}
+public class RankTap1 extends Fragment {
+  public RankTap1(){}
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -27,26 +27,28 @@ public class TabFragment1 extends Fragment {
     ListView listView = (ListView) view.findViewById(R.id._listView);
 
     RankAdapter adapter = new RankAdapter();
-    String session_id = "lonecitizen";
-    //openDatabase();
 
     String API_url = "http://18.220.15.129:3000/get_billiards_rank";
     RequestHttp requestHttp = new RequestHttp();
     String response = requestHttp.requestGet(API_url);
 
-    System.out.println("sibal");
-    Log.d("RANK", response);
+    Log.d("RANK", u_id);
+    Log.d("RANK", u_id);
+    Log.d("RANK", u_id);
 
     try{
       JSONArray rankingResponse = new JSONArray(response);
       for(int i = 0; i < rankingResponse.length(); i++){
         RankData r = new RankData(rankingResponse.getJSONObject(i));
         adapter.addItem(r);
-          if(r.account_id == u_id){
-            TextView idView = view.findViewById(R.id.userId);
-            TextView rankView = view.findViewById(R.id.rankNum);
-            TextView pointView = view.findViewById(R.id.rankPoint);
-          }
+        if(r.account_id.equals(u_id)){
+          TextView idView = view.findViewById(R.id.userId);
+          TextView rankView = view.findViewById(R.id.rankNum);
+          TextView pointView = view.findViewById(R.id.rankPoint);
+          idView.setText(r.getAccount_id());
+          rankView.setText(r.getRank_num()+"");
+          pointView.setText(r.getRank_point()+"");
+        }
         System.out.println(r.account_id + " " + r.rank_num + " " + r.rank_point);
       }
     } catch (JSONException e){
