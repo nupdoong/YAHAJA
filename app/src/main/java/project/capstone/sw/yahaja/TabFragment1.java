@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,9 @@ public class TabFragment1 extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    StoredUserSession storedUserSession = new StoredUserSession(getContext());
+    String u_id = storedUserSession.getUserSession();
+
     View view = inflater.inflate(R.layout.activity_rank, container, false);
     ListView listView = (ListView) view.findViewById(R.id._listView);
 
@@ -38,11 +42,11 @@ public class TabFragment1 extends Fragment {
       for(int i = 0; i < rankingResponse.length(); i++){
         RankData r = new RankData(rankingResponse.getJSONObject(i));
         adapter.addItem(r);
-                /*if(r.account_id == session_id){
-                  TextView idView = findViewById(R.id.userId);
-                  TextView rankView = findViewById(R.id.rankNum);
-                  TextView pointView = findViewById(R.id.rankPoint);
-                }*/
+          if(r.account_id == u_id){
+            TextView idView = view.findViewById(R.id.userId);
+            TextView rankView = view.findViewById(R.id.rankNum);
+            TextView pointView = view.findViewById(R.id.rankPoint);
+          }
         System.out.println(r.account_id + " " + r.rank_num + " " + r.rank_point);
       }
     } catch (JSONException e){
