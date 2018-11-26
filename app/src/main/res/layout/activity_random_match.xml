@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RandomMatchActivity">
+
+    <TextView
+        android:id="@+id/textView_machingSuccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="Maching Success !"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/button_chatting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView_machingSuccess"
+        android:layout_marginBottom="25dp"
+        android:text="Chatting" />
+
+    <Button
+        android:id="@+id/button_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_chatting"
+        android:layout_centerHorizontal="true"
+        android:text="Result" />
+
+    <RelativeLayout
+        android:layout_width="313dp"
+        android:layout_height="336dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/textView_tag_partner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="23dp"
+            android:text="Partner"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+
+        <TextView
+            android:id="@+id/textView_tag_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_tag_partner"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="63dp"
+            android:text="Rank"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_tag_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_tag_partner"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="103dp"
+            android:text="Average"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_tag_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_tag_partner"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="92dp"
+            android:text="Contact"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_tag_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_tag_partner"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="48dp"
+            android:text="Address"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_tag_facility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_tag_partner"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="135dp"
+            android:text="Facility"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_partner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView_tag_partner"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="120dp"
+            android:text="Partner here"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_partner"
+            android:layout_alignTop="@+id/textView_tag_rank"
+            android:text="Rank here"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_partner"
+            android:layout_alignTop="@+id/textView_tag_average"
+            android:text="Average here"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_facility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_partner"
+            android:layout_alignTop="@+id/textView_tag_facility"
+            android:text="Facility here"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_partner"
+            android:layout_alignTop="@+id/textView_tag_contact"
+            android:text="Contact here"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_tag_address"
+            android:layout_alignStart="@+id/textView_tag_partner"
+            android:layout_marginTop="-48dp"
+            android:text="Address here"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</RelativeLayout>
