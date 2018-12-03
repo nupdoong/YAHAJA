@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Url_RandomMatch {
-    public final String url = "http://18.220.15.129:3000/random_match";
+    public final String url = "http://13.59.95.38:3000/random_match";
     private String id;
 
     Url_RandomMatch(String id){

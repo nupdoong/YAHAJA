@@ -34,7 +34,7 @@ public class RankNearActivity extends AppCompatActivity {
     String u_id = storedUserSession.getUserSession();
     //openDatabase();
 
-    String API_url = "http://18.220.15.129:3000/get_billiards_rank";
+    String API_url = "http://13.59.95.38:3000/get_billiards_rank";
     RequestHttp requestHttp = new RequestHttp();
     String response = requestHttp.requestGet(API_url);
 

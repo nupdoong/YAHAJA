@@ -180,7 +180,7 @@ public class MapActivity extends AppCompatActivity
                 location_longitude = mCurrentLocatiion.getLongitude();
                 location_latitude = mCurrentLocatiion.getLatitude();
 
-                new JSONTask_push_location().execute("http://18.220.15.129:3000/push_location");
+                new JSONTask_push_location().execute("http://13.59.95.38:3000/push_location");
 
 
             }
@@ -687,7 +687,7 @@ public class MapActivity extends AppCompatActivity
         ArrayList<LocationData> items = new ArrayList<LocationData>();
         //openDatabase();
 
-        String API_url = "http://18.220.15.129:3000/get_location";
+        String API_url = "http://13.59.95.38:3000/get_location";
         RequestHttp requestHttp = new RequestHttp();
         String response = requestHttp.requestGet(API_url);
 
