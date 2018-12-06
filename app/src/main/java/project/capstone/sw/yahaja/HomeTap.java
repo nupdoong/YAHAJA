@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.Button;
 
@@ -16,9 +17,9 @@ public class HomeTap extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button btn_server = (Button) view.findViewById(R.id.btn_server);
+        ImageButton btn_custom_match = view.findViewById(R.id.btn_custom_match);
 
-        btn_server.setOnClickListener(new View.OnClickListener() {
+        btn_custom_match.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(HomeTap.super.getActivity(), MapActivity.class);
