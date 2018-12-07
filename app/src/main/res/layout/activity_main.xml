@@ -10,6 +10,21 @@
 
     <!--Custom Toolbar-->
 
+    <ImageView
+        android:id="@+id/imageView_menuIcon"
+        android:layout_width="53dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/backGray"
+        android:padding="8dp"
+        app:srcCompat="@drawable/menu_icon" />
+
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayoutMain"
         android:layout_width="match_parent"
@@ -32,7 +47,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPagerMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/content_main_Main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/content_main_Main"
@@ -42,7 +57,7 @@
         android:id="@+id/content_main_Main"
         android:name="project.capstone.sw.yahaja.BlankFragment"
         android:layout_width="match_parent"
-        android:layout_height="464dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/appBarLayoutMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

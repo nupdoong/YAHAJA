@@ -40,5 +40,4 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
     mFragments.add(fragment);
     mFragmentTitles.add(title);
   }
-
 }
