@@ -94,6 +94,7 @@ public class RankTap1 extends Fragment {
       RankItemView view = new RankItemView(getContext().getApplicationContext());
 
       RankData item = items.get(position);
+
       view.setRankNum("" + item.rank_num);
       view.setIDView(item.account_id);
       view.setPointView("" + item.rank_point);
