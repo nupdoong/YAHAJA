@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 public abstract class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private FrameLayout view_stub;
@@ -86,6 +87,10 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
             StoredUserSession storedUserSession = new StoredUserSession(this);
             storedUserSession.clearUserSession();
             Intent intent = new Intent(this, LoginActivity.class);
+
+            Toast.makeText(this,
+                    "로그아웃 되셨습니다!", Toast.LENGTH_LONG).show();
+
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
@@ -101,7 +106,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
             });
             */
         } else if (id == R.id.nav_address_fragment) {
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, MystatActivity.class));
         }
         if(id == R.id.nav_order_fragment) {
             startActivity(new Intent(this, LoginActivity.class));
