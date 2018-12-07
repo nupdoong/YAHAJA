@@ -13,6 +13,7 @@ public class Url_RandomFc {
     }
 
     public final String url = "http://13.59.95.38:3000/random_fc";
+    //public final String url = "http://222.98.25.138:5001/random_fc";
 
     Url_RandomFc(){
     }

@@ -29,6 +29,7 @@ public class ClanTap extends Fragment {
         ClanAdapter adapter = new ClanAdapter();
 
         String API_url = "http://13.59.95.38:3000/clans";
+        //String API_url = "http://222.98.25.138:5001/clans";
         RequestHttp requestHttp = new RequestHttp();
         String response = requestHttp.requestGet(API_url);
 

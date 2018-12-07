@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="project.capstone.sw.yahaja.MainActivity">
 
     <!--Custom Toolbar-->
@@ -17,11 +18,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/backGray"
-        android:padding="8dp"
+        android:background="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menu_icon" />
 
 
@@ -47,20 +48,21 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPagerMain"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="564dp"
         app:layout_constraintBottom_toBottomOf="@+id/content_main_Main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/content_main_Main"
-        app:layout_constraintTop_toTopOf="parent"></android.support.v4.view.ViewPager>
+        app:layout_constraintTop_toTopOf="@+id/content_main_Main"></android.support.v4.view.ViewPager>
 
     <fragment
         android:id="@+id/content_main_Main"
         android:name="project.capstone.sw.yahaja.BlankFragment"
-        android:layout_width="match_parent"
+        android:layout_width="413dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/appBarLayoutMain"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_menuIcon" />
 
 </android.support.constraint.ConstraintLayout>

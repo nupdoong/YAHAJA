@@ -2,6 +2,7 @@ package project.capstone.sw.yahaja;
 
 public class Url_Login {
     private final String url = "http://13.59.95.38:3000/login?";
+    //private final String url = "http://222.98.25.138:5001/login?"; //local
 
     private String id;
     private String password;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Url_RandomMatch {
     public final String url = "http://13.59.95.38:3000/random_match";
+    //public final String url = "http://222.98.25.138:5001/random_match";
     private String id;
 
     Url_RandomMatch(String id){

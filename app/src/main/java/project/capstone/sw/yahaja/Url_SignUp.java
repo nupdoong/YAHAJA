@@ -2,7 +2,8 @@ package project.capstone.sw.yahaja;
 
 public class Url_SignUp {
     public final String url = "http://13.59.95.38:3000/signup?";
-
+    //public final String url = "http://222.98.25.138:5001/signup?";
+    
     private String id;
     private String password;
     private String sex;

@@ -15,6 +15,7 @@ public class Url_RandomPartner {
     }
 
     public final String url = "http://13.59.95.38:3000/random_partner";
+    //public final String url = "http://222.98.25.138:5001/random_partner";
 
     Url_RandomPartner(){
     }

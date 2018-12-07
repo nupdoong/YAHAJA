@@ -29,6 +29,7 @@ public class RankTap1 extends Fragment {
     RankAdapter adapter = new RankAdapter();
 
     String API_url = "http://13.59.95.38:3000/get_billiards_rank";
+    //String API_url = "http://222.98.25.138:5001/get_billiards_rank";
     RequestHttp requestHttp = new RequestHttp();
     String response = requestHttp.requestGet(API_url);
 
@@ -42,6 +43,14 @@ public class RankTap1 extends Fragment {
           TextView idView = view.findViewById(R.id.userId);
           TextView rankView = view.findViewById(R.id.rankNum);
           TextView pointView = view.findViewById(R.id.rankPoint);
+          ImageView imageView = view.findViewById(R.id.userImage);
+          if(r.rank_num == 1){
+            imageView.setImageResource(R.drawable.ic_gold_trophy);
+          }else if(r.rank_num == 2){
+            imageView.setImageResource(R.drawable.ic_silver_trophy);
+          }else if(r.rank_num == 3){
+            imageView.setImageResource(R.drawable.ic_bronze_trophy);
+          }
           idView.setText(r.getAccount_id());
           rankView.setText(r.getRank_num()+"");
           pointView.setText(r.getRank_point()+"");
