@@ -11,7 +11,6 @@ import android.widget.ImageView;
 public class MainActivity extends NavigationActivity implements View.OnClickListener{
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private android.support.v4.app.Fragment fragment;
     private android.support.v4.app.FragmentManager fragmentManager;
 
     @Override
@@ -28,9 +27,9 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
         viewPager = findViewById(R.id.viewPagerMain);
         FragmentAdapter adapter = new FragmentAdapter(fragmentManager);
 
-        adapter.addFragment(new MatchTap(), "MATCH", false);
         adapter.addFragment(new HomeTap(), "HOME", false);
-        adapter.addFragment(new RankTap1(), "RANK", false);
+        adapter.addFragment(new MatchTap(), "MATCH", false);
+        adapter.addFragment(new RankTapActivity(), "RANK", false);
         adapter.addFragment(new ClanTap(), "CLAN", false);
 
         viewPager.setAdapter(adapter);

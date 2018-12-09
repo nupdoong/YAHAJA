@@ -9,13 +9,13 @@
 
     <EditText
         android:id="@+id/editText_login_id"
+        style="@style/CorneredBackgroundStyle"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/editText_login_pw"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="152dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="140dp"
         android:ems="10"
         android:hint="ID"
         android:inputType="textPersonName"
@@ -27,16 +27,18 @@
 
     <EditText
         android:id="@+id/editText_login_pw"
+        style="@style/CorneredBackgroundStyle"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/common_google_signin_btn_text_dark_default"
         android:ems="10"
         android:hint="PW"
         android:inputType="textPassword"
         android:padding="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_login_id" />
@@ -57,6 +59,7 @@
         app:srcCompat="@drawable/main_banner" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="395dp"
         android:layout_height="167dp"
         android:layout_marginBottom="16dp"
@@ -65,6 +68,7 @@
         android:paddingRight="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -75,17 +79,17 @@
 
             <TextView
                 android:id="@+id/textView_login_signin"
+                style="@style/CorneredButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/textView_login_signup"
                 android:layout_alignStart="@+id/textView_login_signup"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="2dp"
-                android:background="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:padding="8dp"
                 android:paddingTop="0dp"
-                android:text="Sign Up"
+                android:text="LOG IN"
                 android:textColor="@color/common_google_signin_btn_text_dark_default"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -101,18 +105,18 @@
 
             <TextView
                 android:id="@+id/textView_login_signup"
+                style="@style/CorneredButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:padding="8dp"
-                android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:text="Sign In"
+                android:paddingTop="0dp"
+                android:text="JOIN"
                 android:textColor="@color/common_google_signin_btn_text_dark_default"
                 android:textSize="20sp"
                 android:textStyle="bold"

@@ -15,8 +15,8 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class RankTap1 extends Fragment {
-  public RankTap1(){}
+public class UserRankTap extends Fragment {
+  public UserRankTap(){}
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -38,6 +38,7 @@ public class RankTap1 extends Fragment {
       JSONArray rankingResponse = new JSONArray(response);
       for(int i = 0; i < rankingResponse.length(); i++){
         RankData r = new RankData(rankingResponse.getJSONObject(i));
+        r.setRank_num(i+1);
         adapter.addItem(r);
         if(r.account_id.equals(u_id)){
           TextView idView = view.findViewById(R.id.userId);
