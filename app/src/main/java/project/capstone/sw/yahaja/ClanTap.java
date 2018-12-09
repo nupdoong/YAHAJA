@@ -39,18 +39,18 @@ public class ClanTap extends Fragment {
             for(int i = 0; i < rankingResponse.length(); i++){
                 ClanData r = new ClanData(rankingResponse.getJSONObject(i));
                 adapter.addItem(r);
-                if(r.clan_name.equals(u_id)){
-                    TextView idView = view.findViewById(R.id.userId);
-                    TextView rankView = view.findViewById(R.id.rankNum);
-                    TextView pointView = view.findViewById(R.id.rankPoint);
+                if(r.clan_master.equals(u_id)){
+                    TextView idView = view.findViewById(R.id.clan_name);
+                    TextView rankView = view.findViewById(R.id.clan_type);
+                    TextView pointView = view.findViewById(R.id.clan_point);
                     idView.setText(r.get_clan_name());
-                    rankView.setText(r.get_type()+"");
+                    rankView.setText(r.get_type());
                     pointView.setText(r.get_points()+"");
                 }
                 System.out.println(r.clan_name + " " + r.type + " " + r.points);
             }
         } catch (JSONException e){
-            System.out.println("JSON parse error. /rankD");
+            System.out.println("JSON parse error. /clan");
         }
         //DB 에서 객체 받아와서 adapter.addItem(object);
 
@@ -81,10 +81,15 @@ public class ClanTap extends Fragment {
             return position;
         }
 
-        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            RankItemView view = new RankItemView(getContext().getApplicationContext());
+            ClanItemView view = new ClanItemView(getContext().getApplicationContext());
 
+            ClanData item = items.get(position);
+
+            view.setRankNum("" + item.clan_name);
+            view.setIDView(item.type);
+            view.setPointView("" + item.points);
+            ImageView imageView = view.findViewById(R.id.userImage);
 
             return view;
         }

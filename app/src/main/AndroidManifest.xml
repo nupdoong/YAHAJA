@@ -54,7 +54,7 @@
         <activity android:name=".RankTapActivity"></activity>
         <activity android:name=".RandomMatchActivity"></activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".ClanActivity" />
+        <activity android:name=".MystatActivity" />
         <activity android:name=".ClanmakeActivity" />
     </application>
 
