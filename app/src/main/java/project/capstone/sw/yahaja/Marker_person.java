@@ -4,12 +4,12 @@ public class Marker_person {
 
     double lat;
     double lon;
-    String firstname;
+    String customId;
 
     public Marker_person(double lat, double lon, String firstname) {
         this.lat = lat;
         this.lon = lon;
-        this.firstname = firstname;
+        this.customId = firstname;
     }
 
     public double getLat() {
@@ -29,10 +29,10 @@ public class Marker_person {
     }
 
     public String getCustom_id() {
-        return firstname;
+        return customId;
     }
 
     public void setCustom_id(int price) {
-        this.firstname = firstname;
+        this.customId = customId;
     }
 }
