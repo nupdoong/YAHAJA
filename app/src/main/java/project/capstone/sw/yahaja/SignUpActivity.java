@@ -2,14 +2,22 @@ package project.capstone.sw.yahaja;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText id, password, user_sex, user_firstname, user_lastname, phone;
+
+
+    // Firebase - Realtime Database
+    private FirebaseDatabase mFirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +31,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         user_lastname = findViewById(R.id.editText_signup_lastname);
         phone = findViewById(R.id.editText_signup_phone);
 
+
+
         TextView signUpBtn = findViewById(R.id.textView_signup_signup);
         signUpBtn.setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View v){
@@ -46,6 +58,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 if(result.equals("")){
                     Toast.makeText(this, "회원가입 성공! 다시 로그인해주세요.", Toast.LENGTH_LONG).show();
+
+
+                    UserData userData = new UserData();
+                    userData.userEmailID = account_id;
+                    userData.fcmToken = FirebaseInstanceId.getInstance().getToken();
+
+                    Log.d("FMCFMCFMCFMCFMC", FirebaseInstanceId.getInstance().getToken());
+
+                    mFirebaseDatabase = FirebaseDatabase.getInstance();
+                    mFirebaseDatabase.getReference("users").child(userData.userEmailID).setValue(userData);
+
+                    Log.d("sexsex", FirebaseInstanceId.getInstance().getToken());
+
                     finish();
                 } else if(result.equals("There is already same ID.")){
                     Toast.makeText(this, "중복된 아이디가 존재합니다", Toast.LENGTH_LONG).show();
