@@ -1,8 +1,10 @@
 package project.capstone.sw.yahaja;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,9 +76,16 @@ public class MatchActivity extends Activity implements
                     RequestHttp requestHttpToken = new RequestHttp();
                     String result = requestHttpToken.requestPost("http://13.59.95.38:3000/custom_match", dataParameter);
 
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
 
                     sendPostToFCM(matchId, "매칭이 완료 되었습니다.");
+
+                    Thread.sleep(500);
+                    Intent resultIntent = new Intent(this, MainActivity.class);
+                    resultIntent.putExtra("menuFragment", "favoritesMenuItem");
+                    startActivity(resultIntent);
+
+
                 }catch (Exception ex){
 
                 }
