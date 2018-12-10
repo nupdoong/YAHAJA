@@ -10,6 +10,7 @@
 
     <style name="SpinnerStyle">
         <item name="android:background">@drawable/drawable_spinner</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="CorneredBackgroundStyle">

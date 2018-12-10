@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends NavigationActivity implements View.OnClickListener{
     private TabLayout tabLayout;
@@ -15,6 +16,8 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -64,6 +67,10 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.imageView_menuIcon:
                 super.drawerLayout.openDrawer(Gravity.START);
+                StoredUserSession storedUserSession = new StoredUserSession(this);
+                String u_id = storedUserSession.getUserSession();
+                TextView textView = drawerLayout.findViewById(R.id.drawerHeader);
+                textView.setText(u_id);
                 break;
             default:
                 break;
