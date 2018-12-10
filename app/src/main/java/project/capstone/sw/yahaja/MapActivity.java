@@ -841,9 +841,9 @@ public class MapActivity extends AppCompatActivity
 
 
 
-    private void sendPostToFCM(final ChatData chatData, final String message) {
+    private void sendPostToFCM(final UserData user, final String message) {
         mFirebaseDatabase.getReference("users")
-                .child(chatData.userEmail.substring(0, chatData.userEmail.indexOf('@')))
+                .child(user.userEmailID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
