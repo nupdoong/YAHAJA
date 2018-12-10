@@ -21,71 +21,53 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editText_signup_id"
+        android:id="@+id/clan_make_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/clan_make_explain"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="74dp"
         android:ems="10"
-        android:hint="아이디"
+        android:hint="클랜 이름"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/editText_signup_pw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText_signup_id"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="125dp"
-        android:ems="10"
-        android:hint="비밀번호"
-        android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/editText_signup_sex"
+        android:id="@+id/clan_make_type"
+        android:layout_width="311dp"
+        android:layout_height="46dp"
+        android:layout_alignStart="@+id/editText_signup_phone"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="208dp"
+        android:ems="10"
+        android:hint="클랜 종목 (billiard, basketball, soccer)" />
+
+    <EditText
+        android:id="@+id/clan_make_master"
         android:layout_width="239dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/editText_signup_phone"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="185dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
         android:ems="10"
-        android:hint="남성: M,  여성: F" />
+        android:hint="클랜 마스터" />
 
     <EditText
-        android:id="@+id/editText_signup_firstname"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/clan_make_explain"
+        android:layout_width="wrap_content"
+        android:layout_height="68dp"
         android:layout_alignStart="@+id/editText_signup_sex"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-12dp"
-        android:layout_marginTop="260dp"
-        android:ems="10"
-        android:hint="성" />
-
-    <EditText
-        android:id="@+id/editText_signup_lastname"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText_signup_sex"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="259dp"
-        android:ems="10"
-        android:hint="이름" />
-
-    <EditText
-        android:id="@+id/editText_signup_phone"
-        android:layout_width="239dp"
-        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="322dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="283dp"
         android:ems="10"
-        android:hint="핸드폰 번호(xxx-xxxx-xxxx)" />
+        android:hint="클랜 설명" />
 
     <TextView
-        android:id="@+id/textView_signup_signup"
+        android:id="@+id/clan_make_signup"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
@@ -93,7 +75,7 @@
         android:layout_marginTop="390dp"
         android:layout_marginRight="50dp"
         android:gravity="center"
-        android:text="회원 가입"
+        android:text="클랜 만들기"
         android:textColor="#001eff"
         android:textSize="20dp"
         android:textStyle="bold" />

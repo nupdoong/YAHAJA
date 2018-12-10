@@ -1,14 +1,18 @@
 package project.capstone.sw.yahaja;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +20,6 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class ClanTap extends Fragment {
-    public ClanTap(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -33,6 +36,15 @@ public class ClanTap extends Fragment {
         RequestHttp requestHttp = new RequestHttp();
         String response = requestHttp.requestGet(API_url);
 
+        Button button = (Button) view.findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ClanmakeActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         try{
             JSONArray rankingResponse = new JSONArray(response);
