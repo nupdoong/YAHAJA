@@ -1,5 +1,6 @@
 package project.capstone.sw.yahaja;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,13 +16,14 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class RankTap1 extends Fragment {
-  public RankTap1(){}
+public class UserRankTap extends Fragment {
+  public UserRankTap(){}
+  private String u_id;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
     StoredUserSession storedUserSession = new StoredUserSession(getContext());
-    String u_id = storedUserSession.getUserSession();
+    u_id = storedUserSession.getUserSession();
 
     View view = inflater.inflate(R.layout.activity_rank, container, false);
     ListView listView = (ListView) view.findViewById(R.id._listView);
@@ -38,6 +40,7 @@ public class RankTap1 extends Fragment {
       JSONArray rankingResponse = new JSONArray(response);
       for(int i = 0; i < rankingResponse.length(); i++){
         RankData r = new RankData(rankingResponse.getJSONObject(i));
+        r.setRank_num(i+1);
         adapter.addItem(r);
         if(r.account_id.equals(u_id)){
           TextView idView = view.findViewById(R.id.userId);
@@ -94,6 +97,13 @@ public class RankTap1 extends Fragment {
       RankItemView view = new RankItemView(getContext().getApplicationContext());
 
       RankData item = items.get(position);
+
+      String userId = item.getAccount_id();
+      int color = Color.argb(255, 236, 236, 240);
+      if(userId.equals(u_id)) {
+        View rankItemBackground = view.findViewById(R.id.rankItemView);
+        rankItemBackground.setBackgroundColor(color);
+      }
 
       view.setRankNum("" + item.rank_num);
       view.setIDView(item.account_id);

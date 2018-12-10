@@ -2,31 +2,39 @@ package project.capstone.sw.yahaja;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class RankTapActivity extends AppCompatActivity {
+public class RankTapActivity extends Fragment {
   private TabLayout tabLayout;
   private ViewPager viewPager;
   private android.support.v4.app.Fragment fragment;
-  private android.support.v4.app.FragmentManager fragmentManager;
+  private android.support.v4.app.FragmentManager rankFragmentManager;
+
+  public RankTapActivity(){
+
+  }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState){
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_rank_tap);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    View view = inflater.inflate(R.layout.activity_rank_tap, container, false);
 
-    fragmentManager = getSupportFragmentManager();
+    rankFragmentManager = getChildFragmentManager();
+    tabLayout = view.findViewById(R.id.tabLayout);
+    viewPager = view.findViewById(R.id.viewPager);
 
-    tabLayout = findViewById(R.id.tabLayout);
-    viewPager = findViewById(R.id.viewPager);
-    FragmentAdapter adapter = new FragmentAdapter(fragmentManager);
+    FragmentAdapter rankAdapter = new FragmentAdapter(rankFragmentManager);
 
-    adapter.addFragment(new RankTap1(), "TOP 100", false);
-    adapter.addFragment(new RankTap2(), "NEAR 100", false);
-    adapter.addFragment(new RankTap3(), "PEER 100", false);
+    rankAdapter.addFragment(new UserRankTap(), "USER", false);
+    rankAdapter.addFragment(new ClanRankTap(), "CLAN", false);
 
-    viewPager.setAdapter(adapter);
+    viewPager.setAdapter(rankAdapter);
 
     tabLayout.setTabMode(TabLayout.MODE_FIXED);
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -51,5 +59,6 @@ public class RankTapActivity extends AppCompatActivity {
 
       }
     });
+    return view;
   }
 }

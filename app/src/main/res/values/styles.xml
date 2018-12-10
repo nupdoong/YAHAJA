@@ -10,5 +10,19 @@
 
     <style name="SpinnerStyle">
         <item name="android:background">@drawable/drawable_spinner</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="CorneredBackgroundStyle">
+        <item name="android:background">@drawable/drawable_corneredbackground</item>
+    </style>
+
+    <style name="CorneredButtonStyle">
+        <item name="android:background">@drawable/drawable_corneredbutton</item>
+    </style>
+
+    <style name="tabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

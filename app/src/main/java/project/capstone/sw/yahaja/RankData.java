@@ -12,7 +12,7 @@ public class RankData {
         try {
             this.account_id = rank_json.getString("user_account_id");
             this.rank_point = rank_json.getInt("points");
-            this.rank_num = rank_json.getInt("rank");
+            this.rank_num = 0;
         } catch(JSONException e){
             System.out.println("JSON parse error. /rank");
         }
@@ -28,5 +28,9 @@ public class RankData {
 
     public int getRank_point() {
         return rank_point;
+    }
+
+    public void setRank_num(int num){
+        this.rank_num = num;
     }
 }

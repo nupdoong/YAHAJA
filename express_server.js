@@ -1,4 +1,5 @@
 var express = require('express');
+var alert = require('alert-node');
 var http = require('http');
 var ejs = require('ejs');
 var static = require('serve-static');
@@ -24,9 +25,37 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
-app.set('port', 5001);
+app.set('port', 3000);
 app.use('/public',static(path.join(__dirname,'public')));
 
+app.get('/first', function(req, res, next) {
+    res.render('top_manage_first.html');
+});
+
+app.post('/logout', function(req, res){
+    res.render('top_manage_first.html');
+});
+
+app.post('/login_m', function(req, res, next) {
+    const id = req.body.account_id
+    const password = req.body.account_pw;
+    console.log('who get in here post /login');
+    var query = connection.query('select * from us_manager where account_id = ?',[id], function(err,rows2){
+        if(rows2.length > 0){
+            if(rows2[0].account_pw == password){
+                res.render('post.html');
+            }
+            else{
+                res.end(JSON.stringify());
+            }
+
+        }
+        else{
+            res.end(JSON.stringify());
+        }
+        
+    });
+});
 
 app.get('/login', function(req, res, next) {
     const id = req.query.account_id
@@ -65,6 +94,8 @@ app.post('/signup', function(req, res, next) {
  
     var sqlQuery = "INSERT INTO us_custom SET ?";
     var post = {account_id: id, account_pw: password, sex: sex, register_date: null, firstname: firstname, lastname: lastname, contact: contact, status: 'normal', clan: null, location_longitude: null, location_latitude: null};
+    var sqlQuery2 = "INSERT INTO rk_billiards SET ?";
+    var post2 = {user_account_id: id, points: 1000, rank: null};
     
     async.waterfall([
         function(callback){
@@ -97,6 +128,9 @@ app.post('/signup', function(req, res, next) {
                     function callback(err, result){
                         if(err){
                             console.log(err);
+                        }
+                        else{
+                            var query2 = connection.query(sqlQuery2, post2);
                         }
                     }
                     var query = connection.query(sqlQuery, post, callback);
@@ -133,9 +167,9 @@ app.post('/push_location', function(req, res){
 
 app.get('/get_location',function(req,res){
     console.log('who get in here post /get_location');
-    var query = connection.query('select firstname, location_longitude, location_latitude from us_custom', function(err,rows){
+    var query = connection.query('select account_id, firstname, location_longitude, location_latitude from us_custom', function(err,rows){
         res.json(rows);
-    });    
+    });
 });
 
 app.get('/get_billiards_rank',function(req,res){
@@ -179,6 +213,7 @@ app.get('/random_partner',function(req,res){
     async.waterfall([
         function(callback){
             connection.query('select account_id  from us_custom where status = ?', ['ready'], function(err,rows){
+                var row_row;
                 partner_id = rows[0].account_id;
                 callback(null, partner_id);
             });
@@ -228,12 +263,372 @@ app.post('/match_result',function(req,res){
     var query = connection.query(sqlQuery, post, callback);  
 });
 
-app.get('/users', function(req, res){
-    console.log('who get in here post /users');
-    var query = connection.query('select firstname, contact from us_custom', function(err,rows){
+app.get('/get_billiards_rank_clan', function(req, res){
+    console.log('who get in here post /clan_rank');
+    var query = connection.query('select clan_name, points from cm_clan', function(err,rows){
         res.json(rows);
     });
 });
+
+app.get('/find_clan', function(req, res){
+    console.log('who get in here post /clan_rank');
+    const id = req.body.account_id;
+    var query = connection.query('select clan from us_custom where account_id = ?',[id] ,function(err,rows){
+        res.json(rows);
+    });
+});
+
+app.get('/users', function(req, res){
+    console.log('who get in here post /users');
+    var query = connection.query('select * from us_custom', function(err,rows){
+        res.json(rows);
+    });
+});
+app.get('/clans', function(req, res){
+    console.log('who get in here post /clans');
+    var query = connection.query('select * from cm_clan', function(err,rows){
+        res.json(rows);
+    });
+});
+
+app.post('/users_m', function(req, res){
+    connection.query("SELECT * from us_custom", function(err, rows, fields){
+        if (!err){
+            
+            res.writeHead(200, {"Content-Type" : "text/html; charset=utf-8"});
+            res.write("<!DOCTYPE html>");
+            res.write("<html>");
+            res.write("<head>");
+            res.write("<meta charset='utf-8'>");
+            res.write("<title>Clan List</title>");
+            res.write("<link rel='stylesheet' href='/public/css/viewmy.css'>");
+            res.write("	<style>	");
+             res.write("	html{	");
+            res.write("	background-size: cover;	");
+            res.write("	margin : 0;	");
+            res.write("	padding : 0;	");
+            res.write("	overflow-y:scroll;overflow-x:hidden;background-repeat:repeat; background-attachment:fixed;	");
+            res.write("	}	");
+            res.write("	body{	");
+            res.write("	font-family:'맑은 고딕', '고딕', '굴림'; 	");
+            res.write("	margin : 0;	");
+            res.write("	padding : 0;	");
+            res.write("	background-image: url('images/snow12.jpg');	");
+            res.write("	-webkit-animation: snow 20s linear infinite;	");
+            res.write("	-moz-animation: snow 20s linear infinite;	");
+            res.write("	-ms-animation: snow 20s linear infinite;	");
+            res.write("	animation: snow 20s linear infinite;	");
+            res.write("	}	");
+            res.write("	@keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	}	");
+            res.write("	@-moz-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	} 	");
+            res.write("	@-webkit-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	50% {}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	} 	");
+            res.write("	@-ms-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	}	");
+            res.write("	</style>	");
+            res.write("</head>");
+            res.write("<body>");
+             res.write("	<header class='head'>	");
+            res.write("	<div class = 'A'>	");
+            res.write("	<div class= 'B'>	");
+            res.write("	<div class='top'>	");
+            res.write("	<img src='images/Nupdoung.jpg' alt='' class = 'image_profile2' style='margin-left : 50px;'>	");
+            res.write("	<img src='images/mark3.jpg' alt='' class = 'image_mark' style='margin-left : 10px;'>	");
+            res.write("	</div>	");
+            res.write('	<div class="top2" >	');
+            res.write("<br>");
+            res.write("<form method = 'post' action='/facility_m'>");
+            res.write("<input type = 'submit' value = 'Facilitys' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("<form method = 'post' action='/clan_m'>");
+            res.write("<input type = 'submit' value = 'Clans' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("<form method = 'post' action='/logout'>");
+            res.write("<input type = 'submit' value = 'Logout' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("	</div>	");
+            res.write("	</div>	");
+            res.write("	</div>	");
+            res.write("	</header>	");
+            for(var i = 0; i < rows.length; i++)
+            {   
+                var j = i+1;
+                res.write("	<article class = 'article'> 	");
+                res.write("	<section class = 'section'>	");
+                res.write("	<div class = 'post'>	");
+                res.write("	<div class='top'> 	");
+                res.write("</div>");
+                res.write("<div>");
+                res.write("<br><h5>User " + j + "</h5>");
+                res.write("</div>");
+                res.write("<div>");
+                res.write("<h4 style='margin-left : 15px;'>ID : " + rows[i].account_id + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>First Name : " + rows[i].firstname + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Last Name : " + rows[i].lastname + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Contact : " + rows[i].contact + "</h4>");
+                res.write("<br>")
+                res.write("<form method = 'post' action='/del_user'>");
+                res.write("<input type = 'submit' value = 'Delete' class='right' name = ''>");
+                res.write("</form>");
+                res.write("</div>");
+                res.write("</div>");
+                res.write("</div>");
+                res.write("</section>");
+                res.write("</article>");
+                
+            }
+            res.write("</body>");
+            res.write("</html>");
+            res.end();
+                
+        }
+
+        else
+            console.log('Error while performing Query.', err);
+    });
+});
+
+app.post('/facility_m', function(req, res){
+    connection.query("SELECT * from fc_billiards", function(err, rows, fields){
+        if (!err){
+            
+            res.writeHead(200, {"Content-Type" : "text/html; charset=utf-8"});
+            res.write("<!DOCTYPE html>");
+            res.write("<html>");
+            res.write("<head>");
+            res.write("<meta charset='utf-8'>");
+            res.write("<title>Clan List</title>");
+            res.write("<link rel='stylesheet' href='/public/css/viewmy.css'>");
+            res.write("	<style>	");
+             res.write("	html{	");
+            res.write("	background-size: cover;	");
+            res.write("	margin : 0;	");
+            res.write("	padding : 0;	");
+            res.write("	overflow-y:scroll;overflow-x:hidden;background-repeat:repeat; background-attachment:fixed;	");
+            res.write("	}	");
+            res.write("	body{	");
+            res.write("	font-family:'맑은 고딕', '고딕', '굴림'; 	");
+            res.write("	margin : 0;	");
+            res.write("	padding : 0;	");
+            res.write("	background-image: url('images/snow12.jpg');	");
+            res.write("	-webkit-animation: snow 20s linear infinite;	");
+            res.write("	-moz-animation: snow 20s linear infinite;	");
+            res.write("	-ms-animation: snow 20s linear infinite;	");
+            res.write("	animation: snow 20s linear infinite;	");
+            res.write("	}	");
+            res.write("	@keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	}	");
+            res.write("	@-moz-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	} 	");
+            res.write("	@-webkit-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	50% {}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	} 	");
+            res.write("	@-ms-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	}	");
+            res.write("	</style>	");
+            res.write("</head>");
+            res.write("<body>");
+             res.write("	<header class='head'>	");
+            res.write("	<div class = 'A'>	");
+            res.write("	<div class= 'B'>	");
+            res.write("	<div class='top'>	");
+            res.write("	<img src='images/Nupdoung.jpg' alt='' class = 'image_profile2' style='margin-left : 50px;'>	");
+            res.write("	<img src='images/mark3.jpg' alt='' class = 'image_mark' style='margin-left : 10px;'>	");
+            res.write("	</div>	");
+            res.write('	<div class="top2" >	');
+            res.write("<br>");
+            res.write("<form method = 'post' action='/users_m'>");
+            res.write("<input type = 'submit' value = 'Users' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("<form method = 'post' action='/clan_m'>");
+            res.write("<input type = 'submit' value = 'Clans' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("<form method = 'post' action='/logout'>");
+            res.write("<input type = 'submit' value = 'Logout' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("	</div>	");
+            res.write("	</div>	");
+            res.write("	</div>	");
+            res.write("	</header>	");
+            for(var i = 0; i < rows.length; i++)
+            {   
+                var j = i+1;
+                res.write("	<article class = 'article'> 	");
+                res.write("	<section class = 'section'>	");
+                res.write("	<div class = 'post'>	");
+                res.write("	<div class='top'> 	");
+                res.write("</div>");
+                res.write("<div>");
+                res.write("<br><h5>Facility " + j + "</h5>");
+                res.write("</div>");
+                res.write("<div>");
+                res.write("<h4 style='margin-left : 15px;'>Name : " + rows[i].name + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Loc : " + rows[i].location + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Contact : " + rows[i].contact + "</h4>");
+                res.write("<br>")
+                res.write("<form method = 'post' action='/del_user'>");
+                res.write("<input type = 'submit' value = 'Delete' class='right' name = ''>");
+                res.write("</form>");
+                res.write("</div>");
+                res.write("</div>");
+                res.write("</section>");
+                res.write("</article>");
+                
+            }
+            res.write("</body>");
+            res.write("</html>");
+            res.end();
+                
+        }
+
+        else
+            console.log('Error while performing Query.', err);
+    });
+});
+
+app.post('/clan_m', function(req, res){
+    connection.query("SELECT * from cm_clan", function(err, rows, fields){
+        if (!err){
+            
+            res.writeHead(200, {"Content-Type" : "text/html; charset=utf-8"});
+            res.write("<!DOCTYPE html>");
+            res.write("<html>");
+            res.write("<head>");
+            res.write("<meta charset='utf-8'>");
+            res.write("<title>Clan List</title>");
+            res.write("<link rel='stylesheet' href='/public/css/viewmy.css'>");
+            res.write("	<style>	");
+             res.write("	html{	");
+            res.write("	background-size: cover;	");
+            res.write("	margin : 0;	");
+            res.write("	padding : 0;	");
+            res.write("	overflow-y:scroll;overflow-x:hidden;background-repeat:repeat; background-attachment:fixed;	");
+            res.write("	}	");
+            res.write("	body{	");
+            res.write("	font-family:'맑은 고딕', '고딕', '굴림'; 	");
+            res.write("	margin : 0;	");
+            res.write("	padding : 0;	");
+            res.write("	background-image: url('images/snow12.jpg');	");
+            res.write("	-webkit-animation: snow 20s linear infinite;	");
+            res.write("	-moz-animation: snow 20s linear infinite;	");
+            res.write("	-ms-animation: snow 20s linear infinite;	");
+            res.write("	animation: snow 20s linear infinite;	");
+            res.write("	}	");
+            res.write("	@keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	}	");
+            res.write("	@-moz-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	} 	");
+            res.write("	@-webkit-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	50% {}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	} 	");
+            res.write("	@-ms-keyframes snow {	");
+            res.write("	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}	");
+            res.write("	100% {background-position: 500px 1000px, 400px 400px, 300px 300px;}	");
+            res.write("	}	");
+            res.write("	</style>	");
+            res.write("</head>");
+            res.write("<body>");
+             res.write("	<header class='head'>	");
+            res.write("	<div class = 'A'>	");
+            res.write("	<div class= 'B'>	");
+            res.write("	<div class='top'>	");
+            res.write("	<img src='images/Nupdoung.jpg' alt='' class = 'image_profile2' style='margin-left : 50px;'>	");
+            res.write("	<img src='images/mark3.jpg' alt='' class = 'image_mark' style='margin-left : 10px;'>	");
+            res.write("	</div>	");
+            res.write('	<div class="top2" >	');
+            res.write("<br>");
+            res.write("<form method = 'post' action='/users_m'>");
+            res.write("<input type = 'submit' value = 'Users' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("<form method = 'post' action='/facility_m'>");
+            res.write("<input type = 'submit' value = 'Facilitys' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("<form method = 'post' action='/logout'>");
+            res.write("<input type = 'submit' value = 'Logout' class='right' name = ''>");
+            res.write("</form>");    
+            res.write("<br>");
+            res.write("	</div>	");
+            res.write("	</div>	");
+            res.write("	</div>	");
+            res.write("	</header>	");
+            for(var i = 0; i < rows.length; i++)
+            {   
+                var j = i+1;
+                res.write("	<article class = 'article'> 	");
+                res.write("	<section class = 'section'>	");
+                res.write("	<div class = 'post'>	");
+                res.write("	<div class='top'> 	");
+                res.write("</div>");
+                res.write("<div>");
+                res.write("<br><h5>Clan " + j + "</h5>");
+                res.write("</div>");
+                res.write("<div>");
+                res.write("<h4 style='margin-left : 15px;'>Name : " + rows[i].clan_name + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Master : " + rows[i].clan_master + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Clan Type : " + rows[i].type + "</h4>");
+                res.write("<h4 style='margin-left : 15px;'>Established : " + rows[i].established + "</h4>");
+                res.write("<br>")
+                res.write("<form method = 'post' action='/del_user'>");
+                res.write("<input type = 'submit' value = 'Delete' class='right' name = ''>");
+                res.write("</form>");
+                res.write("</div>");
+                res.write("</div>");
+                res.write("</section>");
+                res.write("</article>");
+                
+            }
+            res.write("</body>");
+            res.write("</html>");
+            res.end();
+                
+        }
+
+        else
+            console.log('Error while performing Query.', err);
+    });
+});
+
+app.post('/del_user', function(req, res){
+        
+
+    alert('Delete Complete.');
+
+          
+});
+
 http.createServer(app).listen(app.get('port'),function(){
     console.log("express start : %d ", app.get('port'));
 });
