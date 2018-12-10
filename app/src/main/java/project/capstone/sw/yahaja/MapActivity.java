@@ -759,8 +759,8 @@ public class MapActivity extends AppCompatActivity
         }
 
 
-        tv_marker.setText(custom_id);
-        tv_marker.setBackgroundResource(R.drawable.ic_marker_phone);
+        //tv_marker.setText(custom_id);
+        tv_marker.setBackgroundResource(R.drawable.marker);
 
 
         MarkerOptions markerOptions = new MarkerOptions();
