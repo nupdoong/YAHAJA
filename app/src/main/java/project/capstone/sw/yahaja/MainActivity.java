@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         tabLayout.setupWithViewPager(viewPager);
+
 
 // Set TabSelectedListener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
