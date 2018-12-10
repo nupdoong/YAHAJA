@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import project.capstone.sw.yahaja.LoginActivity;
+import project.capstone.sw.yahaja.MainActivity;
 import project.capstone.sw.yahaja.MapActivity;
 import project.capstone.sw.yahaja.MatchActivity;
 import project.capstone.sw.yahaja.R;
@@ -52,10 +53,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 Log.d( "매칭이 완료 되었습니다", "매칭이 완료 되었습니다");
 
+                Intent resultIntent = new Intent(this, MainActivity.class);
+                resultIntent.putExtra("menuFragment", "favoritesMenuItem");
+
+                // Creates the PendingIntent
+                PendingIntent pendingIntent =
+                        PendingIntent.getActivity(
+                                this,
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+
+                notificationBuilder.setContentIntent(pendingIntent);
                 NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                 notificationManagerCompat.notify(0, notificationBuilder.build());
 
                 return;
+
             }else if(body.equals("매칭이 거절 되었습니다.")){
 
                 Log.d( "매칭이 거절 되었습니다.", "매칭이 거절 되었습니다.");
@@ -83,8 +98,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String matchId = tmp[0];
 
             Intent resultIntent = new Intent(this, MatchActivity.class);
-
-            Log.d( "matchIdmatchId", matchId);
 
             resultIntent.putExtra("matchId", matchId);
 
