@@ -80,12 +80,6 @@ public class MapActivity extends AppCompatActivity
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
 
-
-    private static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
-    private static final String SERVER_KEY = "AIzaSyDZF3zh-0_PmYHKxEprFrx4V8AXKB_dQkk";
-    // Firebase - Realtime Database
-    private FirebaseDatabase mFirebaseDatabase;
-
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000000;  // 1000초
@@ -290,7 +284,9 @@ public class MapActivity extends AppCompatActivity
 
             public boolean onMarkerClick(Marker marker) {
 
-                startActivity(new Intent(MapActivity.this, DialogActivity.class));
+                Intent intent = new Intent(getApplicationContext(), DialogActivity.class);
+                intent.putExtra("customId",marker.getTitle());
+                startActivity(intent);
 
                 return false;
             }
@@ -680,7 +676,7 @@ public class MapActivity extends AppCompatActivity
         mGoogleMap.clear();
 
         for (Marker_person item : markerItems) {
-            System.out.println(item.firstname + " " + item.lat + " " + item.lon);
+            System.out.println(item.customId + " " + item.lat + " " + item.lon);
             addMarker(item);
         }
 
@@ -711,8 +707,8 @@ public class MapActivity extends AppCompatActivity
             }
 
             for(LocationData item : items){
-                System.out.println(item.firstname + " " + item.location_latitude + " " + item.location_longitude);
-                Marker_person mak = new Marker_person( item.location_latitude, item.location_longitude, item.firstname  );
+                System.out.println(item.customId + " " + item.location_latitude + " " + item.location_longitude);
+                Marker_person mak = new Marker_person( item.location_latitude, item.location_longitude, item.customId  );
 
                 markerItems.add(mak);
 
@@ -839,61 +835,6 @@ public class MapActivity extends AppCompatActivity
 //---------------------MARKER--------------------------------------------------------------------------------
 //---------------------MARKER--------------------------------------------------------------------------------
 
-
-
-    private void sendPostToFCM(final UserData user, final String message) {
-        mFirebaseDatabase.getReference("users")
-                .child(user.userEmailID)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        final UserData userData = dataSnapshot.getValue(UserData.class);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    // FMC 메시지 생성 start
-                                    Log.d("FMCFMCFMCFMCFMC", "FMC 메시지 생성 starwt" );
-                                    JSONObject root = new JSONObject();
-                                    JSONObject notification = new JSONObject();
-                                    notification.put("body", message);
-                                    notification.put("title", getString(R.string.app_name));
-                                    root.put("notification", notification);
-
-                                    root.put("to", "dEkHlPDPMPI:APA91bGzV_Z3q2SE6F7Irfdc5GskUWOgTV9ZjwKZZ1sDUksleMe0pVz1fwV-iFBkUiGy01bNTpiB1B7LhOa31lILbuNIpLJqe7d2wXm8Zq8lnqldrVHY62tB6rap1fEfupGFxBkt_zTG");
-
-                                    // FMC 메시지 생성 end
-                                    Log.d("토큰totototo", userData.fcmToken);
-
-                                    URL Url = new URL(FCM_MESSAGE_URL);
-                                    HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
-                                    conn.setRequestMethod("POST");
-                                    conn.setDoOutput(true);
-                                    conn.setDoInput(true);
-                                    conn.addRequestProperty("Authorization", "key=" + SERVER_KEY);
-                                    conn.setRequestProperty("Accept", "application/json");
-                                    conn.setRequestProperty("Content-type", "application/json");
-
-                                    OutputStream os = conn.getOutputStream();
-                                    os.write(root.toString().getBytes("utf-8"));
-                                    os.flush();
-
-                                    conn.getResponseCode();
-                                } catch (Exception e) {
-                                    Log.d("토큰에러에러", "씨빨");
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
 
 
 }

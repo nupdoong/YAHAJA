@@ -41,6 +41,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCsYrMCj9rAC29T5tQuqDtERd2w0nf8G40" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
         <activity android:name=".MapActivity" />
 
         <activity
@@ -51,11 +55,24 @@
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".RankTapActivity"></activity>
         <activity android:name=".RandomMatchActivity"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".MystatActivity" />
         <activity android:name=".ClanmakeActivity" />
+
+        <service
+            android:name=".service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
