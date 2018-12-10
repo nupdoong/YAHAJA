@@ -21,14 +21,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public class MatchTap extends Fragment implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GoogleMap.OnMarkerClickListener{
+public class MatchTap extends Fragment implements OnMapReadyCallback {
 
     MapView mapView;
     GoogleMap map;
-
 
     public MatchTap(){}
 
@@ -36,10 +36,7 @@ public class MatchTap extends Fragment implements OnMapReadyCallback, ActivityCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_match, container, false);
 
-        mapView = view.findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-
-        mapView.getMapAsync(this);
+        //mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById();
 
         return view;
 
@@ -56,6 +53,7 @@ public class MatchTap extends Fragment implements OnMapReadyCallback, ActivityCo
         map = googleMap;
         map.getUiSettings().setMyLocationButtonEnabled(false);
         if(checkPermission()) map.setMyLocationEnabled(true);
+
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentGPS);
         map.moveCamera(cameraUpdate);
     }
@@ -106,8 +104,4 @@ public class MatchTap extends Fragment implements OnMapReadyCallback, ActivityCo
 
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
-    }
 }
