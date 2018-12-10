@@ -1,5 +1,6 @@
 package project.capstone.sw.yahaja;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,12 +22,14 @@ import java.util.ArrayList;
  */
 
 public class ClanRankTap extends Fragment {
+
+    private String clanname = "";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         StoredUserSession storedUserSession = new StoredUserSession(getContext());
         String u_id = storedUserSession.getUserSession();
         MyClanName myClanName;
-        String clanname = "";
 
         View view = inflater.inflate(R.layout.activity_rank, container, false);
         ListView listView = (ListView) view.findViewById(R.id._listView);
@@ -123,6 +126,14 @@ public class ClanRankTap extends Fragment {
             RankItemView view = new RankItemView(getContext().getApplicationContext());
 
             ClanRankData item = items.get(position);
+
+            String clannameIdx = item.getClan_name();
+            int color = Color.argb(255, 236, 236, 240);
+            if(clannameIdx.equals(clanname)) {
+                View rankItemBackground = view.findViewById(R.id.rankItemView);
+                rankItemBackground.setBackgroundColor(color);
+            }
+
             view.setRankNum("" + item.clan_rank_num);
             view.setIDView(item.clan_name);
             view.setPointView("" + item.clan_point);
