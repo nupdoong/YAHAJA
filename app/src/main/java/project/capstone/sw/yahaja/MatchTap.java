@@ -18,12 +18,12 @@ public class MatchTap extends Fragment {
 
         Button btn = view.findViewById(R.id.button3);
 
-        btn.setOnClickListener(this);
+        //btn.setOnClickListener(this);
         return view;
 
     }
 
-    @Override
+    //@Override
     public void onClick(View v){
 
     }
