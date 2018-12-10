@@ -32,13 +32,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         user_lastname = findViewById(R.id.editText_signup_lastname);
         phone = findViewById(R.id.editText_signup_phone);
 
-
-
         TextView signUpBtn = findViewById(R.id.textView_signup_signup);
         signUpBtn.setOnClickListener(this);
     }
-
-
 
     @Override
     public void onClick(View v){
