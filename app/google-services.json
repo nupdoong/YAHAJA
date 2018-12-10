@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:906294109808:android:03dfdb36bef03d62",
         "android_client_info": {
-          "package_name": "project.capstone.sw.yahaja"
+          "package_name": "com.example.eogus.daehhhyun"
         }
       },
       "oauth_client": [
@@ -20,6 +20,50 @@
           "android_info": {
             "package_name": "com.example.eogus.daehhhyun",
             "certificate_hash": "51b2d24ae31df6eb9623c591a3c34b3855964836"
+          }
+        },
+        {
+          "client_id": "906294109808-4hsnm1stv31sdo8tubc5q2p8omi294h8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0rdHw2TdaX4-4oyhiRJ_a8ILqZ7O_TQw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906294109808-4hsnm1stv31sdo8tubc5q2p8omi294h8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906294109808:android:cf44c7b45c05c62a",
+        "android_client_info": {
+          "package_name": "project.capstone.sw.yahaja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906294109808-20su0eb9hsfvti8h621ppq38pk4u5l7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "project.capstone.sw.yahaja",
+            "certificate_hash": "4f1432f71156d69e003f62dabbce20f570feb710"
           }
         },
         {

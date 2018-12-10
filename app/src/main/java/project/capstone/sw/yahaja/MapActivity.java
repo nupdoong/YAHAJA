@@ -47,6 +47,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -75,9 +79,6 @@ public class MapActivity extends AppCompatActivity
 
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
-
-
-
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -283,7 +284,9 @@ public class MapActivity extends AppCompatActivity
 
             public boolean onMarkerClick(Marker marker) {
 
-                startActivity(new Intent(MapActivity.this, DialogActivity.class));
+                Intent intent = new Intent(getApplicationContext(), DialogActivity.class);
+                intent.putExtra("customId",marker.getTitle());
+                startActivity(intent);
 
                 return false;
             }
@@ -673,7 +676,7 @@ public class MapActivity extends AppCompatActivity
         mGoogleMap.clear();
 
         for (Marker_person item : markerItems) {
-            System.out.println(item.firstname + " " + item.lat + " " + item.lon);
+            System.out.println(item.customId + " " + item.lat + " " + item.lon);
             addMarker(item);
         }
 
@@ -704,8 +707,8 @@ public class MapActivity extends AppCompatActivity
             }
 
             for(LocationData item : items){
-                System.out.println(item.firstname + " " + item.location_latitude + " " + item.location_longitude);
-                Marker_person mak = new Marker_person( item.location_latitude, item.location_longitude, item.firstname  );
+                System.out.println(item.customId + " " + item.location_latitude + " " + item.location_longitude);
+                Marker_person mak = new Marker_person( item.location_latitude, item.location_longitude, item.customId  );
 
                 markerItems.add(mak);
 
@@ -759,8 +762,8 @@ public class MapActivity extends AppCompatActivity
         }
 
 
-        tv_marker.setText(custom_id);
-        tv_marker.setBackgroundResource(R.drawable.ic_marker_phone);
+        //tv_marker.setText(custom_id);
+        tv_marker.setBackgroundResource(R.drawable.marker);
 
 
         MarkerOptions markerOptions = new MarkerOptions();
@@ -831,4 +834,7 @@ public class MapActivity extends AppCompatActivity
 //---------------------MARKER--------------------------------------------------------------------------------
 //---------------------MARKER--------------------------------------------------------------------------------
 //---------------------MARKER--------------------------------------------------------------------------------
+
+
+
 }
