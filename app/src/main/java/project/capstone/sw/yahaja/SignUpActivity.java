@@ -16,9 +16,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText id, password, passwordConfirm, user_sex, user_firstname, user_lastname, phone;
 
 
-    // Firebase - Realtime Database
-    private FirebaseDatabase mFirebaseDatabase;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,18 +57,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 if(result.equals("")){
                     Toast.makeText(this, "회원가입 성공! 다시 로그인해주세요.", Toast.LENGTH_LONG).show();
-
-
-                    UserData userData = new UserData();
-                    userData.userEmailID = account_id;
-                    userData.fcmToken = FirebaseInstanceId.getInstance().getToken();
-
-                    Log.d("FMCFMCFMCFMCFMC", FirebaseInstanceId.getInstance().getToken());
-
-                    mFirebaseDatabase = FirebaseDatabase.getInstance();
-                    mFirebaseDatabase.getReference("users").child(userData.userEmailID).setValue(userData);
-
-                    Log.d("sexsex", FirebaseInstanceId.getInstance().getToken());
 
                     finish();
                 } else if(result.equals("There is already same ID.")){

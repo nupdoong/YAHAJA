@@ -3,15 +3,22 @@ package project.capstone.sw.yahaja;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     StoredUserSession storedUserSession;
     EditText id, pw;
+
+    // Firebase - Realtime Database
+    private FirebaseDatabase mFirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요!", Toast.LENGTH_LONG).show();
                 } else {
                     storedUserSession.storeUserSession(user_id);
+
+
+                    UserData userData = new UserData();
+                    userData.userEmailID = user_id;
+                    userData.fcmToken = FirebaseInstanceId.getInstance().getToken();
+
+                    Log.d("FMCFMCFMCFMCFMC", FirebaseInstanceId.getInstance().getToken());
+
+                    mFirebaseDatabase = FirebaseDatabase.getInstance();
+                    mFirebaseDatabase.getReference("users").child(userData.userEmailID).setValue(userData);
+
+                    String dataParameter = "";
+                    dataParameter += "account_id=" +  userData.userEmailID;
+                    dataParameter += "&fcm_token=" +  userData.fcmToken;
+
+                    RequestHttp requestHttpToken = new RequestHttp();
+                    requestHttpToken.requestPost("http://13.59.95.38:3000/login_fcm", dataParameter);
+
+                    Log.d("sexsex", FirebaseInstanceId.getInstance().getToken());
+
+
                     Toast.makeText(this,
                             "로그인에 성공했습니다!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, MainActivity.class);
