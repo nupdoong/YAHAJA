@@ -2,4 +2,14 @@
     <string name="app_name">YAHAJA</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+
+    <string-array name="spinnerItem">
+        <item>   당구</item>
+        <item>   볼링</item>
+        <item>   농구</item>
+        <item>   탁구</item>
+        <item>   테니스</item>
+        <item>   스쿼시</item>
+        <item>   배드민턴</item>
+    </string-array>
 </resources>
