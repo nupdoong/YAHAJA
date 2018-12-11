@@ -1,13 +1,16 @@
 package project.capstone.sw.yahaja;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,10 +23,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DialogActivity extends Activity implements
+public class MatchActivity extends Activity implements
         OnClickListener {
 
     private Button mConfirm, mCancel;
+
+    private TextView txtMatch;
 
     private static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
     private static final String SERVER_KEY = "AIzaSyDZF3zh-0_PmYHKxEprFrx4V8AXKB_dQkk";
@@ -31,19 +36,21 @@ public class DialogActivity extends Activity implements
     // Firebase - Realtime Database
     private FirebaseDatabase mFirebaseDatabase;
     String customId;
+    String matchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_dialog);
+        setContentView(R.layout.activity_match);
         setContent();
-
+        txtMatch = findViewById(R.id.txtMactch);
 
         Intent intent = getIntent();
-        customId = intent.getExtras().getString("customId");
+//        customId = intent.getExtras().getString("customId");
+        matchId = intent.getExtras().getString("matchId");
 
-
+        txtMatch.setText(matchId + "님이 매치을 신청하였습니다.");
     }
 
     private void setContent() {
@@ -57,11 +64,34 @@ public class DialogActivity extends Activity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnConfirm:
-                sendPostToFCM(customId,"매칭요청");
+                try {
+                    StoredUserSession storedUserSession;
+                    storedUserSession = new StoredUserSession(this);
+                    String storedId = storedUserSession.getUserSession();
+
+                    String dataParameter = "";
+                    dataParameter += "account_id=" + storedId;
+                    dataParameter += "&partner_id=" + matchId;
+
+                    RequestHttp requestHttpToken = new RequestHttp();
+                    String result = requestHttpToken.requestPost("http://13.59.95.38:3000/custom_match", dataParameter);
+
+                    Thread.sleep(500);
+
+                    sendPostToFCM(matchId, "매칭이 완료 되었습니다.");
+
+                    Thread.sleep(500);
+                    Intent resultIntent = new Intent(this, MainActivity.class);
+                    resultIntent.putExtra("menuFragment", "favoritesMenuItem");
+                    startActivity(resultIntent);
+
+
+                }catch (Exception ex){
+
+                }
                 break;
             case R.id.btnCancel:
-                Intent intent = new Intent(DialogActivity.this, ChatActivity.class);
-                startActivity(intent);
+                sendPostToFCM(matchId,"매칭이 거절 되었습니다.");
                 break;
             default:
                 break;
@@ -70,7 +100,6 @@ public class DialogActivity extends Activity implements
 
 
     private void sendPostToFCM(final String customId, final String message) {
-
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -85,14 +114,11 @@ public class DialogActivity extends Activity implements
                             @Override
                             public void run() {
                                 try {
-                                    StoredUserSession storedUserSession = new StoredUserSession(getApplicationContext());
-                                    String u_id = storedUserSession.getUserSession();
-
                                     // FMC 메시지 생성 start
                                     Log.d("FMCFMCFMCFMCFMC", "FMC 메시지 생성 starwt" );
                                     JSONObject root = new JSONObject();
                                     JSONObject notification = new JSONObject();
-                                    notification.put("body", u_id + ": 님이 매칭을 요청하였습니다");
+                                    notification.put("body", message);
                                     notification.put("title", getString(R.string.app_name));
                                     root.put("notification", notification);
                                     root.put("to", userData.fcmToken);
@@ -113,7 +139,7 @@ public class DialogActivity extends Activity implements
 
                                     conn.getResponseCode();
 
-                                  //  conn.disconnect();
+                                    //  conn.disconnect();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

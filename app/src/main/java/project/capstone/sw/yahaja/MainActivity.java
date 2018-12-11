@@ -1,6 +1,7 @@
 package project.capstone.sw.yahaja;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,11 +30,14 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        String menuFragment = getIntent().getStringExtra("menuFragment");
+
 
         ImageView navigationIcon = findViewById(R.id.imageView_menuIcon);
         navigationIcon.setOnClickListener(this);
 
-        fragmentManager = getSupportFragmentManager();
 
         tabLayout = findViewById(R.id.tabLayoutMain);
         viewPager = findViewById(R.id.viewPagerMain);
@@ -149,6 +153,23 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
 
             }
         });
+
+        // If menuFragment is defined, then this activity was launched with a fragment selection
+        if (menuFragment != null) {
+
+            // Here we can decide what do to -- perhaps load other parameters from the intent extras such as IDs, etc
+            if (menuFragment.equals("favoritesMenuItem")) {
+                TabLayout.Tab tab = tabLayout.getTabAt(1);
+                tab.select();
+                //MatchTap favoritesFragment = new MatchTap();
+                //fragmentTransaction.replace(android.R.id.content, favoritesFragment).commit();
+            }
+        } else {
+            // Activity was not launched with a menuFragment selected -- continue as if this activity was opened from a launcher (for example)
+            HomeTap standardFragment = new HomeTap();
+            fragmentTransaction.replace(android.R.id.content, standardFragment);
+        }
+
     }
 
     @Override

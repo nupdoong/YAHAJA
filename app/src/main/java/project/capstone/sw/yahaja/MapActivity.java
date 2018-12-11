@@ -283,8 +283,11 @@ public class MapActivity extends AppCompatActivity
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
             public boolean onMarkerClick(Marker marker) {
+             //   StoredUserSession storedUserSession = new StoredUserSession(getApplicationContext());
+            //    String u_id = storedUserSession.getUserSession();
 
                 Intent intent = new Intent(getApplicationContext(), DialogActivity.class);
+               // intent.putExtra("myId", u_id);
                 intent.putExtra("customId",marker.getTitle());
                 startActivity(intent);
 
