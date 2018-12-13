@@ -44,8 +44,8 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
 
     GoogleMap map;
     String u_id;
-    double lat = 37.284;
-    double lon = 127.044;
+    double lat = 37.278741;
+    double lon = 127.043972;
 
     public MatchTap(){}
 
@@ -115,14 +115,6 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap){
 
@@ -155,6 +147,7 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
+        //map.clear();
     }
 
     @Override

@@ -75,6 +75,7 @@ public class MatchActivity extends Activity implements
 
                     RequestHttp requestHttpToken = new RequestHttp();
                     String result = requestHttpToken.requestPost("http://13.59.95.38:3000/custom_match", dataParameter);
+                    result = requestHttpToken.requestPost("http://13.59.95.38:3000/match_accept", dataParameter);
 
                     Thread.sleep(500);
 
