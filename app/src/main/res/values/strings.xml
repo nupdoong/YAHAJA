@@ -2,6 +2,7 @@
     <string name="app_name">YAHAJA</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string name="clan_join">클랜을 생성했습니다.</string>
 
     <string-array name="spinnerItem">
         <item>   당구</item>
