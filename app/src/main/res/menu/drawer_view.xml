@@ -10,14 +10,6 @@
             android:id="@+id/nav_logout_fragment"
             android:icon="@android:drawable/ic_partial_secure"
             android:title="로그아웃" />
-        <item
-            android:id="@+id/nav_address_fragment"
-            android:icon="@android:drawable/ic_input_get"
-            android:title="내 스탯" />
-        <item
-            android:id="@+id/nav_order_fragment"
-            android:icon="@android:drawable/ic_dialog_dialer"
-            android:title="내 클랜" />
 
     </group>
 </menu>

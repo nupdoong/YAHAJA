@@ -105,18 +105,23 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
                 }
             });
             */
-        } else if (id == R.id.nav_address_fragment) {
-            startActivity(new Intent(this, MystatActivity.class));
         }
+
+        /*
+        else if (id == R.id.nav_address_fragment) {
+            startActivity(new Intent(this, MyfriendActivity.class));
+        }
+
         if(id == R.id.nav_order_fragment) {
             startActivity(new Intent(this, LoginActivity.class));
             //startActivity(new Intent(this, KakaoLoginActivity.class));
-            /*
+
             Url_Login loginUrl = new Url_Login("111", "111");
             RequestHttp requestHttp = new RequestHttp();
             requestHttp.requestGet(loginUrl.getApiUrl());
-            */
+
         }
+        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

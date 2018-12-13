@@ -57,7 +57,7 @@
         <activity android:name=".ChatActivity" />
         <activity android:name=".RandomMatchActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".MystatActivity" />
+        <activity android:name=".MyfriendActivity" />
         <activity android:name=".ClanmakeActivity" />
 
         <service android:name=".service.MyFirebaseMessagingService">
