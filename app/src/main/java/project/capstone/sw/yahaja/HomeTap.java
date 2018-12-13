@@ -44,15 +44,15 @@ public class HomeTap extends Fragment {
 
                 String randomMatchRequest = "http://13.59.95.38:3000/random_matching?account_id=" + u_id;
 
-                String response = requestHttp.requestGet(randomMatchRequest);
+                requestHttp.requestGet(randomMatchRequest);
 
+                Toast.makeText(getActivity(), "매칭이 수락되었습니다!", Toast.LENGTH_SHORT).show();
             }
         });
 
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.spinnerItem, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setPrompt("Select your favorite Planet!");
 
         spinner.setAdapter(
                 new NothingSelectedSpinnerAdapter(adapter, R.layout.contact_spinner_row_nothing_selected, this.getContext()));

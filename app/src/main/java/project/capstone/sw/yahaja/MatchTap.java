@@ -1,14 +1,18 @@
 package project.capstone.sw.yahaja;
 
 import android.Manifest;
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +51,7 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_match, container, false);
+        final View view = inflater.inflate(R.layout.fragment_match, container, false);
 
         StoredUserSession storedUserSession = new StoredUserSession(getContext());
         u_id = storedUserSession.getUserSession();
@@ -57,7 +61,6 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
 
         Button btn_win = view.findViewById(R.id.buttonWin);
         Button btn_lose = view.findViewById(R.id.buttonLose);
-
 
         btn_win.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,16 +76,14 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
                 String matchWinRequest = "http://13.59.95.38:3000/match_result_win?account_id=" + u_id;
 
                 requestHttp.requestGet(matchWinRequest);
-                TextView opponentIDView = v.findViewById(R.id.opponentIDView);
-                TextView opponentPointView = v.findViewById(R.id.opponentPointView);
-                TextView opponentContactView = v.findViewById(R.id.opponentContactView);
-                TextView facilityNameView = v.findViewById(R.id.facilityNameView);
-                TextView facilityContactView = v.findViewById(R.id.facilityContactView);
-                opponentIDView.setText("  상대 ID   : 진행 중인 매치 정보가 없습니다.");
-                opponentPointView.setText("  상대 점수 : 진행 중인 매치 정보가 없습니다.");
-                opponentContactView.setText("  연락처    : 진행 중인 매치 정보가 없습니다.");
-                facilityNameView.setText("  상호명 : 진행 중인 매치 정보가 없습니다.");
-                facilityContactView.setText("  연락처 : 진행 중인 매치 정보가 없습니다.");
+
+                Toast.makeText(getActivity(), "결과 입력이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+
+                Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+                resultIntent.putExtra("matchFragment", "resultMatch");
+                startActivity(resultIntent);
+
+
             }
         });
 
@@ -102,16 +103,12 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
                 requestHttp.requestGet(matchLoseRequest);
                 requestHttp.requestGet(matchRequest);
 
-                TextView opponentIDView = v.findViewById(R.id.opponentIDView);
-                TextView opponentPointView = v.findViewById(R.id.opponentPointView);
-                TextView opponentContactView = v.findViewById(R.id.opponentContactView);
-                TextView facilityNameView = v.findViewById(R.id.facilityNameView);
-                TextView facilityContactView = v.findViewById(R.id.facilityContactView);
-                opponentIDView.setText("  상대 ID   : 진행 중인 매치 정보가 없습니다.");
-                opponentPointView.setText("  상대 점수 : 진행 중인 매치 정보가 없습니다.");
-                opponentContactView.setText("  연락처    : 진행 중인 매치 정보가 없습니다.");
-                facilityNameView.setText("  상호명 : 진행 중인 매치 정보가 없습니다.");
-                facilityContactView.setText("  연락처 : 진행 중인 매치 정보가 없습니다.");
+                Toast.makeText(getActivity(), "결과 입력이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+
+                Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+                resultIntent.putExtra("matchFragment", "resultMatch");
+                startActivity(resultIntent);
+
             }
         });
 
@@ -141,7 +138,7 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
 
         String address = getCurrentAddress(currentGPS);
         TextView addressView = getActivity().findViewById(R.id.addressView);
-        addressView.setText("  주소 : " + address);
+        addressView.setText("주소 : " + address);
 
     }
 
@@ -212,5 +209,8 @@ public class MatchTap extends Fragment implements OnMapReadyCallback {
         return "Failed to find address.";
     }
 
+    public void onButtonWinClickedListener(){
+
+    }
 
 }

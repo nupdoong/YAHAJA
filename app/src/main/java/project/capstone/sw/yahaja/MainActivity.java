@@ -1,6 +1,8 @@
 package project.capstone.sw.yahaja;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +36,8 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         String menuFragment = getIntent().getStringExtra("menuFragment");
+        String matchFragment = getIntent().getStringExtra("matchFragment");
+
 
 
         ImageView navigationIcon = findViewById(R.id.imageView_menuIcon);
@@ -54,7 +59,6 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         tabLayout.setupWithViewPager(viewPager);
-
 
 // Set TabSelectedListener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -85,7 +89,19 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
 
                     System.out.println("find_match res : " + response);
 
-                    try{
+                    if(response.equals("[]")){
+                        FrameLayout frame = findViewById(R.id.frameNomatch);
+                        frame.setVisibility(View.VISIBLE);
+                    }else {
+                        FrameLayout frame = findViewById(R.id.frameNomatch);
+                        frame.setVisibility(View.GONE);
+                    }
+                    try {
+                        Thread.sleep(500);
+                    }catch(InterruptedException e) {
+
+                    }
+                        try{
                         JSONArray myMatchResponse= new JSONArray(response);
 
                         myMatch = new MatchData(myMatchResponse.getJSONObject(0));
@@ -126,17 +142,22 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
 
                     }
 
-                    TextView opponentIDView = findViewById(R.id.opponentIDView);
+
+                    System.out.println("error part : " + opponentID + opponentPoint + opponentContact + matchPlace + matchPlaceContact);
+
+                    TextView opponentIdView = findViewById(R.id.opponentIDView);
                     TextView opponentPointView = findViewById(R.id.opponentPointView);
                     TextView opponentContactView = findViewById(R.id.opponentContactView);
                     TextView facilityNameView = findViewById(R.id.facilityNameView);
                     TextView facilityContactView = findViewById(R.id.facilityContactView);
 
-                    opponentIDView.setText("  상대 ID   : " + opponentID);
-                    opponentPointView.setText("  상대 점수 : " + opponentPoint);
-                    opponentContactView.setText("  연락처    : " + opponentContact);
-                    facilityNameView.setText("  상호명 : " + matchPlace);
-                    facilityContactView.setText("  연락처 : " + matchPlaceContact);
+                    opponentIdView.setText(opponentID);
+                    opponentPointView.setText(opponentPoint);
+                    opponentContactView.setText(opponentContact);
+                    facilityNameView.setText(matchPlace);
+                    facilityContactView.setText(matchPlaceContact);
+
+                    //should set View in here !!
 
                     //matchTap.setLat(Double.parseDouble(matchPlaceLatitude));
                     //matchTap.setLon(Double.parseDouble(matchPlaceLongitude));
@@ -159,7 +180,9 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
 
             // Here we can decide what do to -- perhaps load other parameters from the intent extras such as IDs, etc
             if (menuFragment.equals("favoritesMenuItem")) {
-                TabLayout.Tab tab = tabLayout.getTabAt(1);
+
+                Toast.makeText(this, "매칭이 수락되었습니다!", Toast.LENGTH_SHORT).show();
+                TabLayout.Tab tab = tabLayout.getTabAt(0);
                 tab.select();
                 //MatchTap favoritesFragment = new MatchTap();
                 //fragmentTransaction.replace(android.R.id.content, favoritesFragment).commit();
@@ -170,6 +193,11 @@ public class MainActivity extends NavigationActivity implements View.OnClickList
             fragmentTransaction.replace(android.R.id.content, standardFragment);
         }
 
+        if (matchFragment != null){
+            if (matchFragment.equals("resultMatch")) {
+                viewPager.setCurrentItem(0);
+            }
+        }
     }
 
     @Override
