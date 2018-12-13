@@ -22,6 +22,7 @@ import org.json.JSONObject;
 public class MainActivity extends NavigationActivity implements View.OnClickListener{
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
     private android.support.v4.app.FragmentManager fragmentManager;
 
 
